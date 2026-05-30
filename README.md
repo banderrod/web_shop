@@ -8,7 +8,7 @@ My web shop project.
 ---
 Copy project:
 ```bash
-python web_shop_project/manage.py runserver
+python web_shop_project/manage.py runserver 0.0.0.0:8000
 ```
 
 Make migrations:

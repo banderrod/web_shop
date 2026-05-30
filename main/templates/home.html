@@ -1,10 +1,110 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Мой сайт</title>
-</head>
-<body>
-    <h1>Добро пожаловать!</h1>
-    <p>Сайт работает на Django.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Новости{% endblock %}
+
+{% block extra_css %}
+.news-feed {
+    max-width: 700px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 45px; /* больше расстояние между карточками */
+}
+
+.news-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* ВАЖНО: картинка теперь реально подчиняется контейнеру */
+.news-card img {
+    width: 100%;
+    height: 180px;   /* уменьшаем */
+    object-fit: cover;
+    display: block;
+}
+
+.news-content {
+    padding: 18px;
+}
+
+.news-card h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.news-card p {
+    color: #444;
+    line-height: 1.5;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.btn-read {
+    display: inline-block;
+    padding: 7px 12px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.news-meta {
+    display: flex;
+    justify-content: flex-end; /* прижимаем вправо */
+    margin-top: 15px;
+}
+
+.news-date {
+    font-size: 12px;
+    color: #9aa0a6; /* мягкий серо-голубой оттенок */
+    font-style: italic;
+}
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Що нового в технобро</h1>
+
+<div class="news-feed">
+
+    {% for item in news %}
+        <div class="news-card">
+
+            {% if item.image %}
+                <img src="{{ item.image.url }}">
+            {% endif %}
+
+            <div class="news-content">
+                <h2>{{ item.title }}</h2>
+
+                <p>
+                    {{ item.text|truncatechars:180 }}
+                </p>
+
+                <a href="#" class="btn-read">Читати далі</a>
+
+                <div class="news-meta">
+                    <span class="news-date">{{ item.created_at|date:"d.m.Y" }}</span>
+                </div>
+            </div>
+
+        </div>
+    {% empty %}
+        <p style="text-align:center;">Новин поки немає 🙂</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

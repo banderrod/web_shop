@@ -2,13 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from django.http import HttpResponse
-
-from main.models import Product
+from main.models import Product, News
 
 
 def home(request):
-    return render(request, 'home.html')
+    news = News.objects.order_by('-created_at')
+    return render(request, 'home.html', {'news': news})
 
 def product_list(request):
     products = Product.objects.all()
