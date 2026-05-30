@@ -1,0 +1,69 @@
+[project]
+name = "web_shop_project"
+version = "0.1.0"
+description = "A template project that contains the structural and auxiliary components that we use in our projects."
+authors = [
+    { name = "Myronenko", email = "myronenko.b@ajax.systmes" },
+    { name = "Kostyann", email = "merkulov.k@ajax.systems" },
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "django>=4.2.30",
+    "pillow>=11.3.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["web_shop_project", "main"]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.1.0",
+    "coverage>=7.6.10",
+    "prek>=0.3.3",
+    "pyinstaller>=6.11.1",
+    "pytest>=8.3.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "uv"
+update_changelog_on_bump = true
+post_bump_hooks = [
+    "git tag -f latest",
+    "git push -f origin tag latest",
+    "git push -f origin tag $CZ_POST_CURRENT_VERSION",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = true
+select = ["E", "F", "I", "D", "S", "W", "ANN", "UP", "FURB"]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+split-on-trailing-comma = true
+
+[tool.ruff.lint.per-file-ignores]
+# disable `S101` - Use of `assert` - we use it in tests all the time
+"qaauto_tools/project_template/tests/*" = ["ANN001", "ANN201", "S101"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.uv]
+required-version = ">=0.9.6"
+exclude-newer = "2 days"
+

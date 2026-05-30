@@ -1,0 +1,9 @@
+.coverage
+.idea
+.python-version
+venv/
+.venv/
+/dist
+/build
+
+**/__pycache__/
